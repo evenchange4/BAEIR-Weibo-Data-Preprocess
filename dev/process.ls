@@ -1,5 +1,7 @@
 require! {
  \readline 
+ \fs
+ \line-by-line
  \sequelize : Sequelize
  \../config.json : $config
 }
@@ -41,26 +43,37 @@ Tweets = sequelize.define do
     permission_denied:
       type: Sequelize.STRING
 
-# Tweets.sequelize.sync({force: true}).success !->
 Tweets.sequelize.sync().success !->
-
-  readline := readline.createInterface do
-    input: process.stdin
-    output: process.stdout
-    terminal: false
-
-  readline.on \line, (line) !->
+  filename = process.argv[2]
+  lr = new line-by-line(filename)
+  lr.on \line, (line) !->
     [ mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied ] = line.split \,
     geo = geo || {}
     
-    setTimeout do
-      !->
-        Tweets.create { mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied }
-        .success !->
-          console.log "Created Successful"
-        .error (d)!->
-          console.log "Created error: #{d}"
-      500
+    Tweets.create { mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied }
+    .success !->
+      console.log "Created Successful"
+    .error (d)!->
+      console.log "Created error: #{d}"
+
+# Tweets.sequelize.sync({force: true}).success !->
+# Tweets.sequelize.sync().success !->
+
+#   readline := readline.createInterface do
+#     # input: process.stdin
+#     input: fs.createReadStream filename
+#     # output: process.stdout
+#     terminal: false
+
+#   readline.on \line, (line) !->
+#     [ mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied ] = line.split \,
+#     geo = geo || {}
+    
+#     Tweets.create { mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied }
+#     .success !->
+#       console.log "Created Successful"
+#     .error (d)!->
+#       console.log "Created error: #{d}"
 
   # readline.on \close, !->
   #   console.log('Have a great day!');
