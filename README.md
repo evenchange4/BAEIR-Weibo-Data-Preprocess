@@ -1,5 +1,7 @@
 ## Weibo Datasets Preprocessing
 
+- Dataset: Open Weiboscope Data Access 香港大學 http://147.8.142.179/datazip/
+
 ## Run
 
 ```
@@ -20,3 +22,6 @@ Edit `./config.json`
   "dialect": "postgres"  
 }
 ```
+
+## Reference
+- https://github.com/Osterjour/line-by-line
