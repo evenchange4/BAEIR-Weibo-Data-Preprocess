@@ -1,4 +1,11 @@
-# var User = sequelize.define('User', {
-#   username: Sequelize.STRING,
-#   password: Sequelize.STRING
-# })
+module.exports = (sequelize, Sequelize) ->
+  sequelize.define \Users, do
+    uid: 
+      type: Sequelize.STRING
+      primaryKey: true
+    province:
+      type: Sequelize.BIGINT
+    gender:
+      type: Sequelize.BOOLEAN
+    verified:
+      type: Sequelize.BOOLEAN
