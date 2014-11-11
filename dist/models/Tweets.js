@@ -26,10 +26,12 @@ module.exports = function(sequelize, Sequelize){
       type: Sequelize.TEXT
     },
     created_at: {
-      type: Sequelize.DATE
+      type: Sequelize.BIGINT,
+      allowNull: true
     },
     deleted_last_seen: {
-      type: Sequelize.TEXT
+      type: Sequelize.BIGINT,
+      allowNull: true
     },
     permission_denied: {
       type: Sequelize.TEXT
