@@ -5,7 +5,7 @@
 ## Run
 
 ```
-$ lsc ./dev/process.ls ../data/sample.csv
+$ node dist/process/tweets.js ../Weiboscope/tweets/week1.csv > logs/1.log
 ```
 
 ## Configuration
