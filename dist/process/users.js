@@ -27,9 +27,7 @@ sequelize.sync({
       province: province,
       gender: gender,
       verified: verified
-    }).success(function(){
-      console.log("Created Successful");
-    }).error(function(d){
+    }).success(function(){}).error(function(d){
       console.error("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [DB Error] Created error: " + d);
     });
   });

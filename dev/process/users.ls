@@ -31,7 +31,7 @@ sequelize.sync({force: $config.force}).success !->
     
     Users.create { uid, province, gender, verified }
     .success !->
-      console.log "Created Successful"
+      # console.log "Created Successful"
     .error (d)!->
       console.error "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
 
