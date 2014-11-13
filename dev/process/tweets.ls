@@ -33,9 +33,9 @@ sequelize.sync({force: $config.force}).success !->
     .success !->
       # console.log "Created Successful"
     .error (d)!->
-      console.error "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
-
+      console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
+      console.log line
   lr.on \error, (error)!->
-    console.error "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [LR Error] #{error}"
+    console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [LR Error] #{error}"
   lr.on \end, !->
     console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] Finished #{filename}."

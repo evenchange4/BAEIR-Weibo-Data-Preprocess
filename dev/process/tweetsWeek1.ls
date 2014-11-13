@@ -6,9 +6,8 @@ require! {
  \sequelize : Sequelize
  \../../config.json : $config
 }
-# filename input
 filename = process.argv[2]
-# filename.split(\/).pop!split(\.csv)[0]
+
 # Database setting
 sequelize = new Sequelize do
   $config.database
@@ -21,21 +20,22 @@ sequelize = new Sequelize do
     logging: $config.logging
 
 # Model Schema
-Users = sequelize.import(__dirname + "/../models/Users")
+TweetsWeek1 = sequelize.import(__dirname + "/../models/TweetsWeek1")
 
 sequelize.sync({force: $config.force}).success !->
   lr = new line-by-line(filename)
   lr.on \line, (line) !->
-    [ uid, province, gender, verified ] = line.split \,
-    gender = gender == \m || false
-    
-    Users.create { uid, province, gender, verified }
+    [ mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied ] = line.split \,
+    created_at = new Date(created_at).getTime! || null
+    deleted_last_seen = new Date(deleted_last_seen).getTime! || null
+    TweetsWeek1.create { mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied }
     .success !->
       # console.log "Created Successful"
     .error (d)!->
       console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
       console.log line
-
+      TweetsWeek1.update { +duplicated }, { mid }
+      
   lr.on \error, (error)!->
     console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [LR Error] #{error}"
   lr.on \end, !->

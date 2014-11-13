@@ -28,11 +28,12 @@ sequelize.sync({
       gender: gender,
       verified: verified
     }).success(function(){}).error(function(d){
-      console.error("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [DB Error] Created error: " + d);
+      console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [DB Error] Created error: " + d);
+      console.log(line);
     });
   });
   lr.on('error', function(error){
-    console.error("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [LR Error] " + error);
+    console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [LR Error] " + error);
   });
   lr.on('end', function(){
     console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] Finished " + filename + ".");
