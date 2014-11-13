@@ -1,4 +1,4 @@
-var readline, fs, lineByLine, moment, Sequelize, $config, filename, sequelize, Tweets;
+var readline, fs, lineByLine, moment, Sequelize, $config, filename, sequelize, TweetsWeek1;
 readline = require('readline');
 fs = require('fs');
 lineByLine = require('line-by-line');
@@ -12,8 +12,8 @@ sequelize = new Sequelize($config.database, $config.username, $config.password, 
   port: $config.port,
   logging: $config.logging
 });
-Tweets = sequelize['import'](__dirname + "/../models/Tweets");
-sequelize.sync({
+TweetsWeek1 = sequelize['import'](__dirname + "/../models/TweetsWeek1");
+TweetsWeek1.sync({
   force: $config.force
 }).success(function(){
   var lr;
@@ -23,7 +23,7 @@ sequelize.sync({
     ref$ = line.split(','), mid = ref$[0], retweeted_status_mid = ref$[1], uid = ref$[2], retweeted_uid = ref$[3], source = ref$[4], image = ref$[5], text = ref$[6], geo = ref$[7], created_at = ref$[8], deleted_last_seen = ref$[9], permission_denied = ref$[10];
     created_at = new Date(created_at).getTime() || null;
     deleted_last_seen = new Date(deleted_last_seen).getTime() || null;
-    Tweets.create({
+    TweetsWeek1.create({
       mid: mid,
       retweeted_status_mid: retweeted_status_mid,
       uid: uid,
@@ -38,6 +38,11 @@ sequelize.sync({
     }).success(function(){}).error(function(d){
       console.log("[" + moment().format("YYYY-MM-DD HH:mm:ss.SSS") + "] [DB Error] Created error: " + d);
       console.log(line);
+      TweetsWeek1.update({
+        duplicated: true
+      }, {
+        mid: mid
+      });
     });
   });
   lr.on('error', function(error){

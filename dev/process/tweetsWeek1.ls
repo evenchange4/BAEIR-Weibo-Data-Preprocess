@@ -22,7 +22,7 @@ sequelize = new Sequelize do
 # Model Schema
 TweetsWeek1 = sequelize.import(__dirname + "/../models/TweetsWeek1")
 
-sequelize.sync({force: $config.force}).success !->
+TweetsWeek1.sync({force: $config.force}).success !->
   lr = new line-by-line(filename)
   lr.on \line, (line) !->
     [ mid, retweeted_status_mid, uid, retweeted_uid, source, image, text, geo, created_at, deleted_last_seen, permission_denied ] = line.split \,
