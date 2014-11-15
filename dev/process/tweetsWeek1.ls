@@ -3,24 +3,16 @@ require! {
  \fs
  \line-by-line
  \moment
- \sequelize : Sequelize
+ \../libs/sequelize : $sequelize
  \../../config.json : $config
 }
 filename = process.argv[2]
 
 # Database setting
-sequelize = new Sequelize do
-  $config.database
-  $config.username
-  $config.password
-  do 
-    host: $config.host
-    dialect: $config.dialect
-    port: $config.port
-    logging: $config.logging
+$sequelize = $sequelize!
 
 # Model Schema
-TweetsWeek1 = sequelize.import(__dirname + "/../models/TweetsWeek1")
+TweetsWeek1 = $sequelize.import(__dirname + "/../models/TweetsWeek1")
 
 TweetsWeek1.sync({force: $config.force}).success !->
   lr = new line-by-line(filename)
@@ -35,7 +27,7 @@ TweetsWeek1.sync({force: $config.force}).success !->
       console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
       console.log line
       TweetsWeek1.update { +duplicated }, { mid }
-      
+      .error (d)!-> console.log d
   lr.on \error, (error)!->
     console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [LR Error] #{error}"
   lr.on \end, !->

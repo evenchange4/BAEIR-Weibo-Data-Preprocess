@@ -1,18 +1,13 @@
-var readline, fs, lineByLine, moment, Sequelize, $config, filename, sequelize, TweetsWeek1;
+var readline, fs, lineByLine, moment, $sequelize, $config, filename, TweetsWeek1;
 readline = require('readline');
 fs = require('fs');
 lineByLine = require('line-by-line');
 moment = require('moment');
-Sequelize = require('sequelize');
+$sequelize = require('../libs/sequelize');
 $config = require('../../config.json');
 filename = process.argv[2];
-sequelize = new Sequelize($config.database, $config.username, $config.password, {
-  host: $config.host,
-  dialect: $config.dialect,
-  port: $config.port,
-  logging: $config.logging
-});
-TweetsWeek1 = sequelize['import'](__dirname + "/../models/TweetsWeek1");
+$sequelize = $sequelize();
+TweetsWeek1 = $sequelize['import'](__dirname + "/../models/TweetsWeek1");
 TweetsWeek1.sync({
   force: $config.force
 }).success(function(){
@@ -42,6 +37,8 @@ TweetsWeek1.sync({
         duplicated: true
       }, {
         mid: mid
+      }).error(function(d){
+        console.log(d);
       });
     });
   });
