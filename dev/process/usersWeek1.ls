@@ -19,6 +19,13 @@ users = {}
     users[uid] = 1
   callback!
 
+!function eachLimitFn (d, callback)
+  UsersWeek1.create { uid: d, retweets_week1: users[d] }
+  .success (d) !->
+    callback!
+  .error (d) !->
+    callback d
+
 $sequelize.sync <[ UsersWeek1 ]> .then (msg)!->
   RetweetsWeek1.findAll { attributes: <[ uid ]> }
   .success (d) !->
@@ -26,8 +33,8 @@ $sequelize.sync <[ UsersWeek1 ]> .then (msg)!->
       if error 
         console.log error
       else
-        for k,v of users
-          UsersWeek1.create { uid: k, retweets_week1: v }
-          .success (d) !->
-          .error (d) !->
-            console.log "[usersWeek1.create error] #{d}"
+        async.eachLimit Object.keys(users), $config.limit, eachLimitFn, (error) !->
+          if error
+            console.log error
+          else 
+            gulp-util.log "[Finished] UsersWeek1.Create."

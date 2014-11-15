@@ -16,26 +16,31 @@ function eachSeriesFn(d, callback){
   }
   callback();
 }
+function eachLimitFn(d, callback){
+  UsersWeek1.create({
+    uid: d,
+    retweets_week1: users[d]
+  }).success(function(d){
+    callback();
+  }).error(function(d){
+    callback(d);
+  });
+}
 $sequelize.sync(['UsersWeek1']).then(function(msg){
   RetweetsWeek1.findAll({
     attributes: ['uid']
   }).success(function(d){
     async.eachSeries(d, eachSeriesFn, function(error){
-      var k, ref$, v;
       if (error) {
         console.log(error);
       } else {
-        for (k in ref$ = users) {
-          v = ref$[k];
-          UsersWeek1.create({
-            uid: k,
-            retweets_week1: v
-          }).success(fn$).error(fn1$);
-        }
-      }
-      function fn$(d){}
-      function fn1$(d){
-        console.log("[usersWeek1.create error] " + d);
+        async.eachLimit(Object.keys(users), $config.limit, eachLimitFn, function(error){
+          if (error) {
+            console.log(error);
+          } else {
+            gulpUtil.log("[Finished] UsersWeek1.Create.");
+          }
+        });
       }
     });
   });
