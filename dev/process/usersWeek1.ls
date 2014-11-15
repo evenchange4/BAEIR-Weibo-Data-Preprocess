@@ -13,18 +13,24 @@ users = {}
 
 !function eachSeriesFn (d, callback)
   uid = d.dataValues.uid
-  if users.hasOwnProperty uid
-    users[uid] += 1
-  else
-    users[uid] = 1
-  callback!
-
-!function eachLimitFn (d, callback)
-  UsersWeek1.create { uid: d, retweets_week1: users[d] }
+  UsersWeek1.find { where: { uid }, attributes: <[ retweets_week1 ]> }
   .success (d) !->
-    callback!
+    if d
+      retweets_week1 = d.dataValues.retweets_week1 + 1
+      UsersWeek1.update { retweets_week1 }, where: { uid }
+      .success (d) !->
+        console.log \erqqwrqr + d
+        callback!
+      .error (d) !->
+        callback "[Error] UsersWeek1.update error #{d}"
+    else
+      UsersWeek1.create { uid, retweets_week1: 1 }
+      .success (d) !->
+        callback!
+      .error (d) !->
+        callback d
   .error (d) !->
-    callback d
+    callback "[Error] UsersWeek1.find error #{d}"
 
 $sequelize.sync <[ UsersWeek1 ]> .then (msg)!->
   RetweetsWeek1.findAll { attributes: <[ uid ]> }
@@ -33,8 +39,4 @@ $sequelize.sync <[ UsersWeek1 ]> .then (msg)!->
       if error 
         console.log error
       else
-        async.eachLimit Object.keys(users), $config.limit, eachLimitFn, (error) !->
-          if error
-            console.log error
-          else 
-            gulp-util.log "[Finished] UsersWeek1.Create."
+        gulp-util.log "[Finished] eachSeries."

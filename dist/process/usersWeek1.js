@@ -9,21 +9,39 @@ users = {};
 function eachSeriesFn(d, callback){
   var uid;
   uid = d.dataValues.uid;
-  if (users.hasOwnProperty(uid)) {
-    users[uid] += 1;
-  } else {
-    users[uid] = 1;
-  }
-  callback();
-}
-function eachLimitFn(d, callback){
-  UsersWeek1.create({
-    uid: d,
-    retweets_week1: users[d]
+  UsersWeek1.find({
+    where: {
+      uid: uid
+    },
+    attributes: ['retweets_week1']
   }).success(function(d){
-    callback();
+    var retweets_week1;
+    if (d) {
+      retweets_week1 = d.dataValues.retweets_week1 + 1;
+      UsersWeek1.update({
+        retweets_week1: retweets_week1
+      }, {
+        where: {
+          uid: uid
+        }
+      }).success(function(d){
+        console.log('erqqwrqr' + d);
+        callback();
+      }).error(function(d){
+        callback("[Error] UsersWeek1.update error " + d);
+      });
+    } else {
+      UsersWeek1.create({
+        uid: uid,
+        retweets_week1: 1
+      }).success(function(d){
+        callback();
+      }).error(function(d){
+        callback(d);
+      });
+    }
   }).error(function(d){
-    callback(d);
+    callback("[Error] UsersWeek1.find error " + d);
   });
 }
 $sequelize.sync(['UsersWeek1']).then(function(msg){
@@ -34,13 +52,7 @@ $sequelize.sync(['UsersWeek1']).then(function(msg){
       if (error) {
         console.log(error);
       } else {
-        async.eachLimit(Object.keys(users), $config.limit, eachLimitFn, function(error){
-          if (error) {
-            console.log(error);
-          } else {
-            gulpUtil.log("[Finished] UsersWeek1.Create.");
-          }
-        });
+        gulpUtil.log("[Finished] eachSeries.");
       }
     });
   });
