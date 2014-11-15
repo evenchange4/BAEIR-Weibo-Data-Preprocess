@@ -1,15 +1,25 @@
 require! {
- \../libs/sequelize : $sequelize
- \../../config.json : $config
+  \async
+  \../libs/sequelize : $sequelize
+  \../../config.json : $config
 }
 
-# Database setting
-$sequelize = $sequelize!
-
 # Model Schema
-TweetsWeek1 = $sequelize.import(__dirname + "/../models/TweetsWeek1")
+TweetsWeek1 = $sequelize.TweetsWeek1
+RetweetsWeek1 = $sequelize.RetweetsWeek1
 
-TweetsWeek1.sync({force: $config.force}).success !->
-  TweetsWeek1.findAndCountAll { where: { retweeted_uid: { ne: "" } } }
+!function retweetsWeek1CreateFn (d, callback)
+  RetweetsWeek1.create d.dataValues
+  .success (d)->
+    callback!
+  .error (d)->
+    callback d
+
+$sequelize.sync <[ RetweetsWeek1 ]> .then (msg)!->
+  TweetsWeek1.findAll { where: { retweeted_uid: { ne: "" } } }
   .success (d) !->
-    console.log d
+    async.each d, retweetsWeek1CreateFn, (error) !->
+      if error
+        console.log error
+      else 
+        console.log \done!

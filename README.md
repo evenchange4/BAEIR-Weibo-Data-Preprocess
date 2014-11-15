@@ -23,7 +23,9 @@ Edit `./config.json`
   "password":"password",
   "host":"localhost",
   "port": 5432,
-  "dialect": "postgres"  
+  "dialect": "postgres",
+  "logging": false,
+  "force": false
 }
 ```
 
