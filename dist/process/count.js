@@ -22,7 +22,7 @@ $sequelize.sync(['RetweetsWeek1']).then(function(msg){
     }
   }).success(function(d){
     gulpUtil.log("[Finished] TweetsWeek1.findAll.");
-    async.each(d, retweetsWeek1CreateFn, function(error){
+    async.mapLimit(d, $config.limit, retweetsWeek1CreateFn, function(error){
       if (error) {
         console.log(error);
       } else {

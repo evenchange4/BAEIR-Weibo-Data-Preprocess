@@ -21,7 +21,7 @@ $sequelize.sync <[ RetweetsWeek1 ]> .then (msg)!->
   TweetsWeek1.findAll { where: { retweeted_uid: { ne: "" } } }
   .success (d) !->
     gulp-util.log "[Finished] TweetsWeek1.findAll."
-    async.each d, retweetsWeek1CreateFn, (error) !->
+    async.mapLimit d, $config.limit, retweetsWeek1CreateFn, (error) !->
       if error
         console.log error
       else 
