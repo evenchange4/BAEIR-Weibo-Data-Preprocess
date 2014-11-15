@@ -25,7 +25,6 @@ function eachSeriesFn(d, callback){
           uid: uid
         }
       }).success(function(d){
-        console.log('erqqwrqr' + d);
         callback();
       }).error(function(d){
         callback("[Error] UsersWeek1.update error " + d);

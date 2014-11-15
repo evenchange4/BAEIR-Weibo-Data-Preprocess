@@ -19,7 +19,6 @@ users = {}
       retweets_week1 = d.dataValues.retweets_week1 + 1
       UsersWeek1.update { retweets_week1 }, where: { uid }
       .success (d) !->
-        console.log \erqqwrqr + d
         callback!
       .error (d) !->
         callback "[Error] UsersWeek1.update error #{d}"
