@@ -34,3 +34,23 @@ Edit `./config.json`
 
 ## Reference
 - https://github.com/Osterjour/line-by-line
+
+## SQL
+
+```
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."mid" != '';
+```
+
+```
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."retweeted_status_mid" != '';
+```
+
+```
+SELECT COUNT(DISTINCT uid) AS "COUNT" FROM "TweetsWeek1s"
+```
+
+
+```
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."retweeted_uid" != '';
+```
+
