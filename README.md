@@ -10,6 +10,9 @@ $ node dist/process/tweets.js ../Weiboscope/tweets/week1.csv > logs/1.log
 
 # Users
 $ node dist/process/users.js ../Weiboscope/user/userdata.csv > logs/users.log
+
+# Retweet Fetch
+$ node dist/process/count.js
 ```
 
 ## Configuration

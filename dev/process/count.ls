@@ -1,5 +1,6 @@
 require! {
   \async
+  \gulp-util
   \../libs/sequelize : $sequelize
   \../../config.json : $config
 }
@@ -11,6 +12,7 @@ RetweetsWeek1 = $sequelize.RetweetsWeek1
 !function retweetsWeek1CreateFn (d, callback)
   RetweetsWeek1.create d.dataValues
   .success (d)->
+    console.log ">>> Processing #{d.dataValues.mid}..."
     callback!
   .error (d)->
     callback d
@@ -18,8 +20,9 @@ RetweetsWeek1 = $sequelize.RetweetsWeek1
 $sequelize.sync <[ RetweetsWeek1 ]> .then (msg)!->
   TweetsWeek1.findAll { where: { retweeted_uid: { ne: "" } } }
   .success (d) !->
+    gulp-util.log "[Finished] TweetsWeek1.findAll."
     async.each d, retweetsWeek1CreateFn, (error) !->
       if error
         console.log error
       else 
-        console.log \done!
+        gulp-util.log "[Finished] retweetsWeek1.Create."
