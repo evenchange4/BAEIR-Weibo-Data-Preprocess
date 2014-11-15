@@ -8,9 +8,9 @@ RetweetsWeek1 = $sequelize.RetweetsWeek1;
 function retweetsWeek1CreateFn(d, callback){
   RetweetsWeek1.create(d.dataValues).success(function(d){
     console.log(">>> Processing " + d.dataValues.mid + "...");
-    return callback();
+    callback();
   }).error(function(d){
-    return callback(d);
+    callback(d);
   });
 }
 $sequelize.sync(['RetweetsWeek1']).then(function(msg){

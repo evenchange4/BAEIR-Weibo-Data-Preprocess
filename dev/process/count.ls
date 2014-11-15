@@ -11,10 +11,10 @@ RetweetsWeek1 = $sequelize.RetweetsWeek1
 
 !function retweetsWeek1CreateFn (d, callback)
   RetweetsWeek1.create d.dataValues
-  .success (d)->
+  .success (d) !->
     console.log ">>> Processing #{d.dataValues.mid}..."
     callback!
-  .error (d)->
+  .error (d) !->
     callback d
 
 $sequelize.sync <[ RetweetsWeek1 ]> .then (msg)!->
