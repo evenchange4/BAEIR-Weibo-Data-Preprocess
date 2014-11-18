@@ -37,20 +37,28 @@ Edit `./config.json`
 
 ## SQL
 
-```
-SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."mid" != '';
-```
+- 1. 總比數：
 
 ```
-SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."retweeted_status_mid" != '';
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek2s" AS "TweetsWeek" WHERE "TweetsWeek"."mid" != '';
 ```
+
+- 2. 不重複人數（unique User ID）
 
 ```
 SELECT COUNT(DISTINCT uid) AS "COUNT" FROM "TweetsWeek1s"
 ```
 
+- 3. 屬於 Retweet
 
 ```
-SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek1" WHERE "TweetsWeek1"."retweeted_uid" != '';
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek" WHERE "TweetsWeek"."retweeted_status_mid" != '';
+```
+
+- 4. 
+
+
+```
+SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek" WHERE "TweetsWeek"."retweeted_uid" != '';
 ```
 
