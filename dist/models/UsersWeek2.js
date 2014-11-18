@@ -4,7 +4,7 @@ module.exports = function(sequelize, Sequelize){
       type: Sequelize.STRING,
       primaryKey: true
     },
-    retweets_week1: {
+    retweets_week2: {
       type: Sequelize.INTEGER
     },
     province: {

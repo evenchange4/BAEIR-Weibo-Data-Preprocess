@@ -55,10 +55,10 @@ SELECT COUNT(DISTINCT uid) AS "COUNT" FROM "TweetsWeek1s"
 SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek" WHERE "TweetsWeek"."retweeted_status_mid" != '';
 ```
 
-- 4. 
+- 4. RetweetsWeek 筆數
 
 
 ```
-SELECT COUNT(*) AS "COUNT" FROM "TweetsWeek1s" AS "TweetsWeek" WHERE "TweetsWeek"."retweeted_uid" != '';
+SELECT COUNT(*) AS "COUNT" FROM "RetweetsWeek2s" AS "RetweetsWeek" WHERE "RetweetsWeek"."mid" != '';
 ```
 
