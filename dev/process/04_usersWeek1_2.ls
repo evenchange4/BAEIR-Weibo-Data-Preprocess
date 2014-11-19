@@ -8,7 +8,7 @@ require! {
 }
 
 # Model Schema
-UsersWeek1 = $sequelize.UsersWeek2
+UsersWeek1 = $sequelize.UsersWeek1
 UsersWeek2 = $sequelize.UsersWeek2
 UsersWeek1_2 = $sequelize.UsersWeek1_2
 
