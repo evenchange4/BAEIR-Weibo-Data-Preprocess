@@ -3,7 +3,7 @@ async = require('async');
 gulpUtil = require('gulp-util');
 $sequelize = require('../libs/sequelize');
 $config = require('../../config.json');
-UsersWeek1 = $sequelize.UsersWeek2;
+UsersWeek1 = $sequelize.UsersWeek1;
 UsersWeek2 = $sequelize.UsersWeek2;
 UsersWeek1_2 = $sequelize.UsersWeek1_2;
 function week1CreateFn(d, callback){
@@ -31,6 +31,7 @@ function week2CreateFn(d, callback){
     return callback(d);
   }).success(function(d){
     if (d === 1) {
+      console.log('update' + uid);
       return UsersWeek1_2.update({
         retweets_week2: retweets_week2
       }, {
