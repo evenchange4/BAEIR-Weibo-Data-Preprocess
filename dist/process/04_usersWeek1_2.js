@@ -31,11 +31,12 @@ function week2CreateFn(d, callback){
     return callback(d);
   }).success(function(d){
     if (d) {
-      console.log('update' + uid);
       return UsersWeek1_2.update({
         retweets_week2: retweets_week2
       }, {
-        uid: uid
+        where: {
+          uid: uid
+        }
       }).success(function(d){
         callback();
       }).error(function(d){

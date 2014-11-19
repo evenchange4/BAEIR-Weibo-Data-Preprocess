@@ -28,8 +28,7 @@ UsersWeek1_2 = $sequelize.UsersWeek1_2
   .error (d) -> callback d
   .success (d) ->
     if d
-      console.log \update + uid
-      UsersWeek1_2.update { retweets_week2 }, { uid }
+      UsersWeek1_2.update { retweets_week2 }, where: { uid }
       .success (d) !-> callback!
       .error (d) !-> callback d
     else
