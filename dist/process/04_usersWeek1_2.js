@@ -30,7 +30,7 @@ function week2CreateFn(d, callback){
   }).error(function(d){
     return callback(d);
   }).success(function(d){
-    if (d === 1) {
+    if (d) {
       console.log('update' + uid);
       return UsersWeek1_2.update({
         retweets_week2: retweets_week2
