@@ -23,7 +23,7 @@ $sequelize.sync <[ TweetsWeek1 ]> .then (msg)!->
     .error (d)!->
       console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [DB Error] Created error: #{d}"
       console.log line
-      TweetsWeek1.update { +duplicated }, { mid }
+      TweetsWeek1.update { +duplicated }, where: { mid }
       .error (d)!-> console.log d
   lr.on \error, (error)!->
     console.log "[#{moment!format("YYYY-MM-DD HH:mm:ss.SSS")}] [LR Error] #{error}"

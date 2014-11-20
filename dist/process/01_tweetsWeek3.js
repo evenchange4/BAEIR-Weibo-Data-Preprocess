@@ -33,7 +33,9 @@ $sequelize.sync(['TweetsWeek3']).then(function(msg){
       TweetsWeek3.update({
         duplicated: true
       }, {
-        mid: mid
+        where: {
+          mid: mid
+        }
       }).error(function(d){
         console.log(d);
       });
