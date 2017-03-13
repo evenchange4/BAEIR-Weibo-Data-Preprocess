@@ -1,5 +1,7 @@
 ## Weibo Datasets Preprocessing
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/evenchange4/BAEIR-Weibo-Data-Preprocess.svg)](https://greenkeeper.io/)
+
 - Dataset: Open Weiboscope Data Access 香港大學 http://147.8.142.179/datazip/
 
 ## Run
